@@ -11,7 +11,7 @@ if os.getenv("RENDER") != "true":
     load_dotenv()
 
 # Initialize FastMCP
-mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=10000, stateless_http=True)
+mcp = FastMCP(name="TavilyServer", stateless_http=True)
 
 # Initialize Tavily
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
@@ -63,4 +63,8 @@ def web_search(query: str) -> str:
         return f"Error in the search: {str(e)}"
 
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http")
+    import os
+    # Get the port provided by Render, or use 8080 as the local default
+    port = int(os.environ.get("PORT", 8080))
+    # Start the server listening on 0.0.0.0 and the correct port
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)

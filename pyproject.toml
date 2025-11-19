@@ -1,14 +1,13 @@
 [project]
-name = "tavily-server"
+name = "tavily-mcp-server"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.116.1",
-    "langchain>=0.3.27",
-    "langchain-google-genai>=2.1.9",
     "mcp[cli]>=1.12.4",
     "python-dotenv>=1.1.1",
     "tavily-python>=0.7.10",
+    "uvicorn>=0.38.0",
 ]

@@ -72,4 +72,4 @@ def web_search(query: str) -> str:
         return f"Error in the search: {str(e)}"
 
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http")
+    mcp.run(transport="sse")

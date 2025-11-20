@@ -1,7 +1,6 @@
 # server.py 
 import os
 import json
-from typing import Optional, Dict, Any, List
 from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
 from contextlib import AsyncExitStack, asynccontextmanager
@@ -16,9 +15,13 @@ mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=10000, stateless_http=Tr
 
 
 # Initialize Tavily
-TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
-if not TAVILY_API_KEY:
-    raise Exception("TAVILY_API_KEY missing")
+if "TAVILY_API_KEY" not in os.environ:
+    raise Exception("TAVILY_API_KEY environment variable not set")
+  
+# Tavily API key
+TAVILY_API_KEY = os.environ["TAVILY_API_KEY"]
+
+# Initialize Tavily client
 client = TavilyClient(TAVILY_API_KEY)
 
 @mcp.tool()

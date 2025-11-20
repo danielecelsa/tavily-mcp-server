@@ -3,6 +3,8 @@ import os
 import json
 from typing import Optional, Dict, Any, List
 from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI
+from contextlib import AsyncExitStack, asynccontextmanager
 from tavily import TavilyClient
 
 # Load env if needed
@@ -10,17 +12,8 @@ if os.getenv("RENDER") != "true":
     from dotenv import load_dotenv
     load_dotenv()
 
-PORT = int(os.environ.get("PORT", 8080))
+mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=10000, stateless_http=True, lifespan=None)
 
-
-
-# Initialize FastMCP
-mcp = FastMCP(
-    name="TavilyServer", 
-    host="0.0.0.0", 
-    port=PORT, 
-    stateless_http=True
-)
 
 # Initialize Tavily
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
@@ -71,5 +64,16 @@ def web_search(query: str) -> str:
     except Exception as e:
         return f"Error in the search: {str(e)}"
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with AsyncExitStack() as stack:
+        # Questo avvia il session_manager solo per il tool MCP
+        await stack.enter_async_context(mcp.session_manager.run())
+        yield
+
+app = FastAPI(lifespan=lifespan)
+app.mount("/tav", mcp.streamable_http_app())
+
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)

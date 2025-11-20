@@ -49,6 +49,7 @@ def web_search(query: str) -> str:
         # Build the data package for our Client Agent
         output = {
             "answer": res.get("answer", "No summary provided."),
+            "query": query,
             "results": []
         }
         

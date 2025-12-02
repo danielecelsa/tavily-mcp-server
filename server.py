@@ -11,8 +11,10 @@ if os.getenv("RENDER") != "true":
     from dotenv import load_dotenv
     load_dotenv()
 
-mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=10000, stateless_http=True, lifespan=None)
+#mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=10000, stateless_http=True, lifespan=None)
 
+# for HF Space
+mcp = FastMCP(name="TavilyServer", host="0.0.0.0", port=7860, stateless_http=True, lifespan=None)
 
 # Initialize Tavily
 if "TAVILY_API_KEY" not in os.environ:

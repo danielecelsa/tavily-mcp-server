@@ -7,7 +7,7 @@
 
 The **Server-Side component** of the Decoupled Research Agent architecture. This lightweight FastAPI server exposes the Tavily Search API as a standardized **Model Context Protocol (MCP)** tool, allowing remote AI agents to perform web searches without holding API credentials.
 
-> **Note:** This server is designed to work in tandem with the [Tavily Client](https://github.com/danielecelsa/chatbot-with-search/README.md). Together, they demonstrate a secure, decoupled microservices architecture for Agentic AI.
+> **Note:** This server is designed to work in tandem with the [Tavily Client](https://github.com/danielecelsa/chatbot-with-search). Together, they demonstrate a secure, decoupled microservices architecture for Agentic AI.
 
 ---
 
